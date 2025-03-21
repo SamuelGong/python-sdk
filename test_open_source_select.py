@@ -1,5 +1,6 @@
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import (AutoModelForCausalLM,
+                          AutoTokenizer, BitsAndBytesConfig)
 
 from test_closed_source_select import messages
 
@@ -8,6 +9,8 @@ if __name__ == '__main__':
     model_name = "meta-llama/Meta-Llama-3-8B-Instruct"  # context length: 8k
     device = "cuda" if torch.cuda.is_available() else "cpu"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
+
+    # not available for low version of transformers' PreTrainedTokenizerFast
     prompt = tokenizer.apply_chat_template(
         messages, tokenize=False, add_generation_prompt=True
     )
@@ -16,8 +19,7 @@ if __name__ == '__main__':
     print(f"Length of prompt in tokens: {num_tokens}")
 
     model = AutoModelForCausalLM.from_pretrained(
-        model_name,
-        load_in_4bit=True
+        model_name
     )
     model.to(device)
     model.eval()
