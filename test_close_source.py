@@ -13,8 +13,8 @@ if __name__ == '__main__':
         messages, tokenize=False, add_generation_prompt=True
     )
     inputs = tokenizer(prompt, return_tensors="pt").to(device)
-    print(f"Length of prompt in tokens: {len(inputs[0])}")
-    print(len(prompt))
+    num_tokens = len(inputs[0])
+    print(f"Length of prompt in tokens: {num_tokens}")
 
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
@@ -33,6 +33,5 @@ if __name__ == '__main__':
         temperature=temperature,
         pad_token_id=tokenizer.eos_token_id,
     )
-    full_output = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    response = full_output[len(prompt):].strip()
-    print(len(full_output))
+    full_output = tokenizer.decode(outputs[0][num_tokens:], skip_special_tokens=True)
+    print(full_output)
