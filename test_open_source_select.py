@@ -56,17 +56,19 @@ messages = [
     {"role": "system", "content": instruction},
     {"role": "user", "content": query}
 ]
-endpoint = OpenAI(
-    api_key=os.getenv("ARK_API_KEY"),
-    base_url="https://ark.cn-beijing.volces.com/api/v3",
-    http_client=httpx.Client(
-        verify=False  # important for company use
+
+if __name__ == "__main__":
+    endpoint = OpenAI(
+        api_key=os.getenv("ARK_API_KEY"),
+        base_url="https://ark.cn-beijing.volces.com/api/v3",
+        http_client=httpx.Client(
+            verify=False  # important for company use
+        )
     )
-)
-payload = {
-    "model": model,
-    "messages": messages,
-}
-completion = endpoint.chat.completions.create(**payload)
-print(completion.choices[0].message.content)
-# expected output: FINAL_ANSWER: get_alerts
+    payload = {
+        "model": model,
+        "messages": messages,
+    }
+    completion = endpoint.chat.completions.create(**payload)
+    print(completion.choices[0].message.content)
+    # expected output: FINAL_ANSWER: get_alerts
