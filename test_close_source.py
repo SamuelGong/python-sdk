@@ -33,5 +33,5 @@ if __name__ == '__main__':
         pad_token_id=tokenizer.eos_token_id,
     )
     full_output = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    response = full_output[len(prompt):].strip()
-    print(response)
+    # response = full_output[len(prompt):].strip()
+    print(full_output)
