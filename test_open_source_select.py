@@ -1,6 +1,8 @@
 import os
 import httpx
+import random
 from openai import OpenAI
+from useless_tools import use_less_tools
 
 
 useful_tools = [
@@ -46,7 +48,10 @@ useful_tools = [
     }
 ]
 
-available_tools = useful_tools + []
+available_tools = useful_tools + use_less_tools
+random.seed(4)
+random.shuffle(available_tools)
+
 
 model = "ep-20250212105505-5zlbx"
 instruction = f"You have a list of tools: {available_tools}"

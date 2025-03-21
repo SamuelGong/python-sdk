@@ -6,7 +6,7 @@ from test_open_source_select import messages
 
 if __name__ == '__main__':
     # model_name = "meta-llama/Llama-3.1-8B-Instruct"
-    model_name = "meta-llama/Meta-Llama-3-8B-Instruct"
+    model_name = "meta-llama/Meta-Llama-3-8B-Instruct"  # context length: 8k
     device = "cuda" if torch.cuda.is_available() else "cpu"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     prompt = tokenizer.apply_chat_template(
@@ -35,3 +35,4 @@ if __name__ == '__main__':
     )
     full_output = tokenizer.decode(outputs[0][num_tokens:], skip_special_tokens=True)
     print(full_output)
+    # expected output: FINAL_ANSWER: get_alerts
