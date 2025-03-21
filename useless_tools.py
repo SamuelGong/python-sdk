@@ -1,14 +1,22 @@
-from noise_tools import aws
+from noise_tools import aws, x
+
 
 use_less_tools = []
+# https://github.com/modelcontextprotocol/servers?tab=readme-ov-file
+# Community Servers
+tools_list = [
+    aws.get_aws_tools(),
+    x.list_tools()
+]
 
-tools = aws.get_aws_tools()
-for tool in tools:
-    use_less_tools.append({
-        "type": "function",
-        "function": {
-            "name": tool.name,
-            "description": tool.description,
-            "input_schema": tool.inputSchema
-        }
-    })
+
+for tools in tools_list:
+    for tool in tools:
+        use_less_tools.append({
+            "type": "function",
+            "function": {
+                "name": tool.name,
+                "description": tool.description,
+                "input_schema": tool.inputSchema
+            }
+        })
