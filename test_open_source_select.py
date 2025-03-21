@@ -1,79 +1,37 @@
-import os
-import httpx
-import random
-from openai import OpenAI
-from useless_tools import use_less_tools
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+from test_closed_source_select import messages
 
 
-useful_tools = [
-    {
-        'type': 'function',
-        'function': {
-            'name': 'get_alerts',
-            'description': 'Get weather alerts for a US state.\n\n    Args:\n        state: Two-letter US state code (e.g. CA, NY)\n    ',
-            'input_schema': {
-                'properties': {
-                    'state': {
-                        'title': 'State',
-                        'type': 'string'
-                    }
-                },
-                'required': ['state'],
-                'title': 'get_alertsArguments',
-                'type': 'object'
-            }
-        }
-    },
-    {
-        'type': 'function',
-        'function': {
-            'name': 'get_forecast',
-            'description': 'Get weather forecast for a location.\n\n    Args:\n        latitude: Latitude of the location\n        longitude: Longitude of the location\n    ',
-            'input_schema': {
-                'properties': {
-                    'latitude': {
-                        'title': 'Latitude',
-                        'type': 'number'
-                    },
-                    'longitude': {
-                        'title': 'Longitude',
-                        'type': 'number'
-                    }
-                },
-                'required': ['latitude', 'longitude'],
-                'title': 'get_forecastArguments',
-                'type': 'object'
-            }
-        }
-    }
-]
-
-available_tools = useful_tools + use_less_tools
-random.seed(4)
-random.shuffle(available_tools)
-
-
-model = "ep-20250212105505-5zlbx"
-instruction = f"You have a list of tools: {available_tools}"
-query = (f"Name a listed tool with which I can get the weather alerts in California, if any. "
-         f"Please strictly format your answer as: FINAL_ANSWER: [tool_name]/None")
-messages = [
-    {"role": "system", "content": instruction},
-    {"role": "user", "content": query}
-]
-
-if __name__ == "__main__":
-    endpoint = OpenAI(
-        api_key=os.getenv("ARK_API_KEY"),
-        base_url="https://ark.cn-beijing.volces.com/api/v3",
-        http_client=httpx.Client(
-            verify=False  # important for company use
-        )
+if __name__ == '__main__':
+    model_name = "meta-llama/Meta-Llama-3-8B-Instruct"  # context length: 8k
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    prompt = tokenizer.apply_chat_template(
+        messages, tokenize=False, add_generation_prompt=True
     )
-    payload = {
-        "model": model,
-        "messages": messages,
-    }
-    completion = endpoint.chat.completions.create(**payload)
-    print(completion.choices[0].message.content)
+    inputs = tokenizer(prompt, return_tensors="pt").to(device)
+    num_tokens = len(inputs[0])
+    print(f"Length of prompt in tokens: {num_tokens}")
+
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        load_in_4bit=True
+    )
+    model.to(device)
+    model.eval()
+
+    max_new_tokens = 256
+    do_sample = True
+    temperature = 1.0
+    outputs = model.generate(
+        **inputs,
+        max_new_tokens=max_new_tokens,
+        do_sample=do_sample,
+        temperature=temperature,
+        pad_token_id=tokenizer.eos_token_id,
+    )
+    full_output = tokenizer.decode(outputs[0][num_tokens:], skip_special_tokens=True)
+    print(full_output)
     # expected output: FINAL_ANSWER: get_alerts
