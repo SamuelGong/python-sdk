@@ -13,7 +13,8 @@ if __name__ == '__main__':
         messages, tokenize=False, add_generation_prompt=True
     )
     inputs = tokenizer(prompt, return_tensors="pt").to(device)
-    print(f"Length of prompt in tokens: {len(inputs[0])}")
+    prompt_len = len(inputs[0])
+    print(f"Length of prompt in tokens: {prompt_len}")
 
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
@@ -33,5 +34,5 @@ if __name__ == '__main__':
         pad_token_id=tokenizer.eos_token_id,
     )
     full_output = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    # response = full_output[len(prompt):].strip()
-    print(full_output)
+    response = full_output[len(prompt):].strip()
+    print(response)
