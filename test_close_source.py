@@ -14,6 +14,7 @@ if __name__ == '__main__':
     )
     inputs = tokenizer(prompt, return_tensors="pt").to(device)
     print(f"Length of prompt in tokens: {len(inputs[0])}")
+    print(len(prompt))
 
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
@@ -34,4 +35,4 @@ if __name__ == '__main__':
     )
     full_output = tokenizer.decode(outputs[0], skip_special_tokens=True)
     response = full_output[len(prompt):].strip()
-    print(type(full_output))
+    print(len(full_output))
