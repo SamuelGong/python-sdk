@@ -30,7 +30,7 @@ tools_list = [
     typesense.list_tools(),
     win_cli.list_tools(),
     google_calendar.list_tools(),
-    google_tasks.
+    google_tasks.list_tools()
 ]
 
 
