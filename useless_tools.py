@@ -1,4 +1,4 @@
-from noise_tools import aws, x, git, time
+from noise_tools import aws, x, git, time, sqlite
 
 
 use_less_tools = []
@@ -8,7 +8,8 @@ tools_list = [
     aws.get_aws_tools(),
     x.list_tools(),
     git.list_tools(),
-    time.list_tools()
+    time.list_tools(),
+    sqlite.list_tools()
 ]
 
 
