@@ -1,5 +1,5 @@
 from noise_tools import (aws, x, git, time, redis, discord, aws_s3,
-                         sqlite, brave_search, google_map, docker)
+                         sqlite, brave_search, google_map, docker, mongo)
 
 
 use_less_tools = []
@@ -16,7 +16,8 @@ tools_list = [
     redis.list_tools(),
     discord.list_tools(),
     docker.list_tools(),
-    aws_s3.list_tools()
+    aws_s3.list_tools(),
+    mongo.list_tools()
 ]
 
 
