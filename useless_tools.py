@@ -1,4 +1,4 @@
-from noise_tools import (aws, x, git, time,
+from noise_tools import (aws, x, git, time, redis,
                          sqlite, brave_search, google_map)
 
 
@@ -12,7 +12,8 @@ tools_list = [
     time.list_tools(),
     sqlite.list_tools(),
     brave_search.list_tools(),
-    google_map.list_tools()
+    google_map.list_tools(),
+    redis.list_tools()
 ]
 
 
