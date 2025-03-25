@@ -1,6 +1,7 @@
 import os
 import httpx
 import random
+import argparse
 from openai import OpenAI
 from useless_tools import use_less_tools
 
@@ -55,15 +56,28 @@ random.shuffle(available_tools)
 
 
 model = "ep-20250212105505-5zlbx"
-instruction = f"You have a list of tools: {available_tools}"
-query = (f"Name a listed tool with which I can get the weather alerts in California, if any. "
-         f"Please strictly format your answer as: FINAL_ANSWER: tool_name or None")
-messages = [
-    {"role": "system", "content": instruction},
-    {"role": "user", "content": query}
-]
+
+
+def get_messages(hide_input_schema=False):
+    if hide_input_schema:
+        for avail_tool in available_tools:
+            del avail_tool["function"]["input_schema"]
+
+    instruction = f"You have a list of tools: {available_tools}"
+    query = (f"Name a listed tool with which I can get the weather alerts in California, if any. "
+             f"Please strictly format your answer as: FINAL_ANSWER: tool_name or None")
+    messages = [
+        {"role": "system", "content": instruction},
+        {"role": "user", "content": query}
+    ]
+    return messages
+
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--hide_input_schema", required=False, default=False)
+    args = parser.parse_args()
+
     endpoint = OpenAI(
         api_key=os.getenv("ARK_API_KEY"),
         base_url="https://ark.cn-beijing.volces.com/api/v3",
@@ -73,7 +87,7 @@ if __name__ == "__main__":
     )
     payload = {
         "model": model,
-        "messages": messages,
+        "messages": get_messages(args.hide_input_schema),
     }
     completion = endpoint.chat.completions.create(**payload)
     print(completion.choices[0].message.content)
