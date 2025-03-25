@@ -57,7 +57,7 @@ random.shuffle(available_tools)
 model = "ep-20250212105505-5zlbx"
 instruction = f"You have a list of tools: {available_tools}"
 query = (f"Name a listed tool with which I can get the weather alerts in California, if any. "
-         f"Please strictly format your answer as: FINAL_ANSWER: [tool_name] or None")
+         f"Please strictly format your answer as: FINAL_ANSWER: tool_name or None")
 messages = [
     {"role": "system", "content": instruction},
     {"role": "user", "content": query}

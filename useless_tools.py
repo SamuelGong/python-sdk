@@ -1,4 +1,4 @@
-from noise_tools import aws, x
+from noise_tools import aws, x, git
 
 
 use_less_tools = []
@@ -6,7 +6,8 @@ use_less_tools = []
 # Community Servers
 tools_list = [
     aws.get_aws_tools(),
-    x.list_tools()
+    x.list_tools(),
+    git.list_tools()
 ]
 
 
@@ -20,3 +21,4 @@ for tools in tools_list:
                 "input_schema": tool.inputSchema
             }
         })
+print(f"Number of useless tools: {len(use_less_tools)}")
