@@ -1,6 +1,6 @@
 from noise_tools import (aws, x, git, time, redis, discord, aws_s3,
                          sqlite, brave_search, google_map, docker, mongo,
-                         monday, nasa, notion, pandoc, playwright)
+                         monday, nasa, notion, pandoc, playwright, request)
 
 
 use_less_tools = []
