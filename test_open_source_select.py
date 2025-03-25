@@ -7,6 +7,7 @@ from test_closed_source_select import messages
 
 if __name__ == '__main__':
     model_name = "meta-llama/Meta-Llama-3-8B-Instruct"  # context length: 8k
+    # model_name = "Qwen/Qwen2.5-3B-Instruct"
     device = "cuda" if torch.cuda.is_available() else "cpu"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 

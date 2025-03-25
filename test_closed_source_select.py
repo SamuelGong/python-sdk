@@ -48,7 +48,8 @@ useful_tools = [
     }
 ]
 
-available_tools = useful_tools + use_less_tools
+# available_tools = useful_tools + use_less_tools
+available_tools = useful_tools
 random.seed(4)
 random.shuffle(available_tools)
 
