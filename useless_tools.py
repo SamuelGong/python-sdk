@@ -1,4 +1,4 @@
-from noise_tools import (aws, x, git, time, redis, discord,
+from noise_tools import (aws, x, git, time, redis, discord, aws_s3,
                          sqlite, brave_search, google_map, docker)
 
 
@@ -15,7 +15,8 @@ tools_list = [
     google_map.list_tools(),
     redis.list_tools(),
     discord.list_tools(),
-    docker.list_tools()
+    docker.list_tools(),
+    aws_s3.list_tools()
 ]
 
 
