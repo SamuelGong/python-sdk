@@ -23,7 +23,8 @@ tools_list = [
     nasa.list_tools(),
     notion.list_tools(),
     pandoc.list_tools(),
-    playwright.list_tools()
+    playwright.list_tools(),
+    request.list_tools()
 ]
 
 
