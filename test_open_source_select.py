@@ -1,3 +1,4 @@
+import time
 import torch
 from transformers import (AutoModelForCausalLM,
                           AutoTokenizer, BitsAndBytesConfig)
@@ -6,6 +7,7 @@ from test_closed_source_select import messages
 
 
 if __name__ == '__main__':
+    start_time = time.perf_counter()
     model_name = "meta-llama/Meta-Llama-3-8B-Instruct"  # context length: 8k
     # model_name = "Qwen/Qwen2.5-3B-Instruct"
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -38,3 +40,7 @@ if __name__ == '__main__':
     full_output = tokenizer.decode(outputs[0][num_tokens:], skip_special_tokens=True)
     print(full_output)
     # expected output: FINAL_ANSWER: get_alerts
+
+    end_time = time.perf_counter()
+    duration = end_time - start_time
+    print(f"Done in {round(duration, 2)}s")
