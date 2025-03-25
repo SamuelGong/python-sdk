@@ -1,7 +1,7 @@
 from noise_tools import (aws, x, git, time, redis, discord, aws_s3,
                          sqlite, brave_search, google_map, docker, mongo,
                          monday, nasa, notion, pandoc, playwright, request,
-                         snowflake, typesense, win_cli)
+                         snowflake, typesense, win_cli, google_calendar)
 
 
 use_less_tools = []
@@ -28,7 +28,8 @@ tools_list = [
     request.list_tools(),
     snowflake.list_tools(),
     typesense.list_tools(),
-    win_cli.list_tools()
+    win_cli.list_tools(),
+    google_calendar.list_tools()
 ]
 
 
