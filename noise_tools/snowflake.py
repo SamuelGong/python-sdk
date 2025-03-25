@@ -7,7 +7,7 @@ def list_tools() -> list[Tool]:
         Tool(
             name="list_tables",
             description="List all tables in the Snowflake database",
-            input_schema={
+            inputSchema={
                 "type": "object",
                 "properties": {},
             },
@@ -15,7 +15,7 @@ def list_tools() -> list[Tool]:
         Tool(
             name="describe_table",
             description="Get the schema information for a specific table",
-            input_schema={
+            inputSchema={
                 "type": "object",
                 "properties": {"table_name": {"type": "string", "description": "Name of the table to describe"}},
                 "required": ["table_name"],
@@ -24,7 +24,7 @@ def list_tools() -> list[Tool]:
         Tool(
             name="read_query",
             description="Execute a SELECT query.",
-            input_schema={
+            inputSchema={
                 "type": "object",
                 "properties": {"query": {"type": "string", "description": "SELECT SQL query to execute"}},
                 "required": ["query"],
@@ -33,7 +33,7 @@ def list_tools() -> list[Tool]:
         Tool(
             name="append_insight",
             description="Add a data insight to the memo",
-            input_schema={
+            inputSchema={
                 "type": "object",
                 "properties": {"insight": {"type": "string", "description": "Data insight discovered from analysis"}},
                 "required": ["insight"],
@@ -42,7 +42,7 @@ def list_tools() -> list[Tool]:
         Tool(
             name="write_query",
             description="Execute an INSERT, UPDATE, or DELETE query on the Snowflake database",
-            input_schema={
+            inputSchema={
                 "type": "object",
                 "properties": {"query": {"type": "string", "description": "SQL query to execute"}},
                 "required": ["query"],
@@ -51,7 +51,7 @@ def list_tools() -> list[Tool]:
         Tool(
             name="create_table",
             description="Create a new table in the Snowflake database",
-            input_schema={
+            inputSchema={
                 "type": "object",
                 "properties": {"query": {"type": "string", "description": "CREATE TABLE SQL statement"}},
                 "required": ["query"],
