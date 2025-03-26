@@ -5,3 +5,6 @@ bitsandbytes
 openai
 mcp
 GitPython
+linear
+faiss-cpu  # or faiss-gpu
+sentence_transformers
